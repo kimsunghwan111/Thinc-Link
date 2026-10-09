@@ -1,0 +1,206 @@
+:root {
+  color-scheme: dark;
+  --bg: #0f1115;
+  --panel: #171a21;
+  --border: #272b36;
+  --text: #e6e8ee;
+  --muted: #8b92a5;
+  --accent: #6c8cff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--text); }
+
+.btn {
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+}
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+
+/* 홈 */
+.home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.home h1 { margin: 0; font-size: 32px; }
+.subtitle { margin: 0 0 12px; color: var(--muted); }
+.divider { color: var(--muted); font-size: 13px; }
+.join-form { display: flex; gap: 8px; }
+.join-form input {
+  width: 200px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 14px;
+}
+.join-form input:focus { outline: none; border-color: var(--accent); }
+
+/* 방: 편집기가 화면 대부분을 차지한다 */
+.room { height: 100%; display: flex; flex-direction: column; }
+.room-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  height: 44px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.back { color: var(--muted); text-decoration: none; }
+.back:hover { color: var(--text); }
+.room-id { color: var(--muted); }
+.room-id code { color: var(--text); background: var(--bg); padding: 2px 6px; border-radius: 4px; }
+
+
+/* 접속자 목록 */
+.presence { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.participant { display: inline-flex; align-items: center; gap: 6px; color: var(--text); }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.me-tag { color: var(--muted); font-size: 12px; }
+.name-input {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--text);
+  font: inherit;
+  padding: 2px 4px;
+  margin: 0 -4px;
+  /* 한글처럼 폭이 넓은 글자도 잘리지 않도록 내용 길이에 맞춘다 (미지원 브라우저는 size 속성 사용) */
+  field-sizing: content;
+}
+.name-input:hover { border-color: var(--border); }
+.name-input:focus { outline: none; border-color: var(--accent); background: var(--bg); }
+
+/* 원격 커서·선택 영역 공통 모양 (색상과 이름은 RemoteCursorStyles에서 접속자별로 지정) */
+.yRemoteSelectionHead {
+  position: absolute;
+  box-sizing: border-box;
+  height: 100%;
+  border-left: 2px solid;
+}
+.yRemoteSelectionHead::after {
+  position: absolute;
+  top: -1.45em;
+  left: -2px;
+  padding: 1px 6px;
+  border-radius: 4px 4px 4px 0;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* 편의 기능: 언어 선택, 링크 복사, 연결 상태 */
+.lang-select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font: inherit;
+}
+.lang-select:focus { outline: none; border-color: var(--accent); }
+.btn.small { padding: 4px 10px; font-size: 13px; }
+.copy-wrap { position: relative; display: inline-flex; }
+.toast {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #1f6f43;
+  color: #fff;
+  font-size: 12px;
+  z-index: 20;
+}
+.toast.failed { background: #a33a3a; }
+.conn { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.conn-connected .dot { background: #3ecf8e; }
+.conn-connecting .dot { background: #f5b942; }
+.conn-disconnected .dot { background: #ef5b5b; }
+.conn-disconnected { color: #ef5b5b; }
+.presence { margin-left: 0; }
+.conn { margin-left: auto; }
+
+/* 작업 영역: 편집기(위) + 경계 + 콘솔(아래) */
+.workspace { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.editor-area { flex: 1; min-height: 0; }
+.console-wrap {
+  flex: none;
+  min-height: 60px;
+  max-height: calc(100% - 126px); /* 편집기가 최소 높이는 유지되도록 */
+}
+.splitter {
+  flex: none;
+  height: 6px;
+  background: var(--border);
+  cursor: row-resize;
+  touch-action: none; /* 터치 드래그 시 화면 스크롤 방지 */
+}
+.splitter:hover, .splitter:focus-visible, .splitter:active { background: var(--accent); outline: none; }
+
+.console {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #14161b;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+.console-title {
+  flex: none;
+  padding: 4px 12px;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.console-body { flex: 1; min-height: 0; overflow: auto; padding: 6px 12px; }
+.console-empty { margin: 4px 0; color: var(--muted); }
+.console-line { padding: 1px 0; white-space: pre-wrap; word-break: break-word; }
+
+
+.console-line.warn { color: #f5b942; }
+.console-line.error { color: #ef5b5b; }
+.console-line.system, .console-line.info { color: var(--muted); }
+
+.run-toolbar { display: inline-flex; gap: 6px; }
+.btn.run:not(:disabled) { background: #1f6f43; border-color: #1f6f43; color: #fff; }
+
+/* 라이브 콘솔: 실행 결과 */
+.console-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.console-running { display: inline-flex; align-items: center; gap: 6px; color: var(--text); }
+.console-run-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+  color: var(--muted);
+  font-size: 12px;
+}
+.console-run-header:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.console-run-header strong { color: var(--text); font-weight: 600; }
+.console-line { padding-left: 16px; }
+.run-hint { color: var(--muted); font-size: 12px; margin-left: 4px; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
